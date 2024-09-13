@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Artistic Block Grid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://images.pexels.com/photos/604684/pexels-photo-604684.jpeg?auto=compress&cs=tinysrgb&w=600 '); /* Replace with an actual image URL */
+      background-size: cover;
+      background-position: center;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px; /*  gap between the blocks */
+      width: 80%;
+    }
+
+    .block {
+      position: relative;
+      padding: 40px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold; /* text bold */
+      border-radius: 20px;
+      cursor: pointer;
+      color: black; /* Text color black */
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 150px;
+    }
+
+
+    .block:nth-child(1) {
+      background: #a2b9bc; /* Solid Light Teal */
+    }
+    .block:nth-child(2) {
+      background: #d0e1f9; /* Solid Light Blue */
+    }
+    .block:nth-child(3) {
+      background: #f4a261; /* Solid Soft Orange */
+    }
+    .block:nth-child(4) {
+      background: #d9d9d9; /* Solid Light Gray */
+    }
+    .block:nth-child(5) {
+      background: #b9fbc0; /* Solid Light Green */
+    }
+    .block:nth-child(6) {
+      background: #ffcccb; /* Solid Light Pink */
+    }
+
+    
+    .block:hover {
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(1.1);
+    }
+
+    /* Shaking effect on click */
+    .block:active {
+      animation: shake 0.6s ease;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Smooth return effect on leaving */
+    .block:active {
+      transform: rotateY(15deg) rotateX(15deg) scale(1.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="block" data-url="http://127.0.0.1:5500/SEM.HTML">Computer Science</div>
+    <div class="block" data-url="https://example.com/page2">Mechanical</div>
+    <div class="block" data-url="https://example.com/page3">Chemical</div>
+    <div class="block" data-url="https://example.com/page4">Civil</div>
+    <div class="block" data-url="https://example.com/page5">Biotech</div>
+    <div class="block" data-url="https://example.com/page6">Food Tech</div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.block').forEach(block => {
+      block.addEventListener('mousemove', (e) => {
+        const rect = block.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 15; // Adjust the strength of the tilt
+        const rotateY = (centerX - x) / 15; // Adjust the strength of the tilt
+
+        block.style.transform = rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05);
+      });
+
+      block.addEventListener('mouseleave', () => {
+        block.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+      });
+
+      block.addEventListener('click', () => {
+        const url = block.getAttribute('data-url');
+        window.location.href = url;
+      });
+    });
+  </script>
+</body>
+</html>
